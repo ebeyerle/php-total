@@ -7,72 +7,81 @@ $fields=isset($_SESSION['fields'])?$_SESSION['fields']:[];
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="cache-control" content="max-age=0" />
-    <meta http-equiv="cache-control" content="no-cache" />
-    <meta http-equiv="expires" content="0" />
-    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
-    <meta http-equiv="pragma" content="no-cache" />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-    <meta charset="UTF-8">
-    <title>Example</title>
-    <style>
-      body
-      {
-        padding: 0px;
-        margin: 0px;
-        overflow: hidden;
-      }
-
-      .centeredContent
-      {
-          position:relative;
-          text-align:center;
-          padding-top: 25px;
-      }
-
-      .buttonGap
-      {
-          margin: 5px;
-      }
-
-    </style>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> Balance </title>
+    
     <link rel="stylesheet" href="css/bootstrap.css" type="text/css"/>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script type="text/javascript" src="js/bootstrap.js"></script>
+		
+		<script>
+			var grand_total = 10e8;
+			window.isEmbedded = window.self !== window.top;
+
+			document.addEventListener("DOMContentLoaded", () => {
+					// pull the data
+					fetchData();
+
+					// base of the chart
+					document
+							.getElementById("xxx")
+							.setAttribute("d", describeArc(100, 100, 100, 0, 270));
+			});
+
+			const fetchData = () => {
+					fetch(
+							"https://permissionio-widget.s3.amazonaws.com/Permission_Treasury_Wallet_Balances.json?t=" +
+									Date.now()
+					)
+							.then((res) => res.json())
+							.then((res) => {
+									// re
+									render(res);
+									// res
+							});
+			};
+
+			const render = (data) => {
+					//
+
+
+					const balance_total = data["Total"].balance;
+					 console.log(balance_total);
+
+					const ratio = (balance_total / grand_total) * 100;
+					document.querySelector(".total").innerText = numberFormat(
+							balance_total
+					);
+
+
+					if (isEmbedded) {
+							// send size to parent frame
+							window.top.postMessage(
+									{
+											action: "iframeResize",
+											height: document.body.scrollHeight,
+											// width: document.body.scrollWidth,
+									},
+									"*"
+							);
+					}
+			};
+
+			const numberFormat = (string) => {
+					if (string == null) return 0;
+					return new Intl.NumberFormat("en-US", {
+							style: "decimal",
+					}).format(string.toString());
+			};
+		</script>
     
   </head>
   <body>
 
-
-
-  <div class="centeredContent">
-
-    <?php
-			$api_url = 'https://permissionio-widget.s3.amazonaws.com/Permission_Treasury_Wallet_Balances.json?t=1627667637030';
-
-			// Read JSON file
-			$json_data = file_get_contents($api_url);
-
-			// Decode JSON data into PHP array
-			$response_data = json_decode($json_data);
-
-			// All user data exists in 'data' object
-			$balance_data = $response_data->data;
-
-			// Cut long data into small & select only first 10 records
-			echo "Total - ".$balance_data;
-
-			// Print data if need to debug
-			//print_r($user_data);
-
-			// Traverse array and display user data
-			
-    ?>
-
-
-  </div>
+		<div class="total">        
+    </div>
 
   </body>
 </html>
