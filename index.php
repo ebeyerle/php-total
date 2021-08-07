@@ -50,7 +50,7 @@ $fields=isset($_SESSION['fields'])?$_SESSION['fields']:[];
   <div class="centeredContent">
 
     <?php
-			$api_url = 'http://dummy.restapiexample.com/api/v1/employees';
+			$api_url = 'https://permissionio-widget.s3.amazonaws.com/Permission_Treasury_Wallet_Balances.json?t=1627667637030';
 
 			// Read JSON file
 			$json_data = file_get_contents($api_url);
@@ -59,21 +59,16 @@ $fields=isset($_SESSION['fields'])?$_SESSION['fields']:[];
 			$response_data = json_decode($json_data);
 
 			// All user data exists in 'data' object
-			$user_data = $response_data->data;
+			$balance_data = $response_data->data;
 
 			// Cut long data into small & select only first 10 records
-			$user_data = array_slice($user_data, 0, 9);
+			echo "Total - ".$balance_data->Total;
 
 			// Print data if need to debug
 			//print_r($user_data);
 
 			// Traverse array and display user data
-			foreach ($user_data as $user) {
-				echo "name: ".$user->employee_name;
-				echo "<br />";
-				echo "name: ".$user->employee_age;
-				echo "<br /> <br />";
-			}
+			
     ?>
 
 
