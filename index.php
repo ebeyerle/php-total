@@ -46,34 +46,9 @@ $fields=isset($_SESSION['fields'])?$_SESSION['fields']:[];
   <body>
 
   <div class="centeredContent">
-    <button type="button" class="btn buttonGap btn-primary">Primary</button>
-  </div>
-
-
-  <div class="centeredContent">
 
     <?php
-
-      // run this test with a local server of your choice.
-      // For windows you can use: https://www.apachefriends.org/index.html
-      // for mac you can use: https://www.mamp.info/en/mamp/mac/
-
-      // key = caption, value = css class
-      $buttons = array(
-        "Success" => "btn-success",
-        "Danger" => "btn-danger",
-      );
-						
-			//Loops through the $buttons array and creates a new button for each item in the array
-			foreach($buttons as $caption => $cssClass){
-				$button = new Button($caption, $cssClass);
-				$button -> displayButton();
-			}
-			
-      // loop through the $buttons array
-      // using a custom php class you defined, output 2 buttons on the page using the defined caption and css class in $buttons
-      // the result should look like the provided image in folder.
-			
+			echo "<p>".total."</p>";
     ?>
 
 
@@ -81,26 +56,6 @@ $fields=isset($_SESSION['fields'])?$_SESSION['fields']:[];
 
   </body>
 </html>
-
-<?php
-
-// define your php class below
-// name it "Button"
-class Button {
-	private ?string $caption;
-	private ?string $cssClass;
-	
-	public function __construct(?string $caption, ?string $cssClass) {
-		$this->caption  = $caption;
-		$this->cssClass = $cssClass;
-	}
-	
-	public function displayButton() {
-		echo "<button type=\"button\" class=\"btn buttonGap ".$this->cssClass."\">".$this->caption."</button>";
-	}
-}
-
-?>
 <?php
 unset($_SESSION['errors']);
 unset($_SESSION['fields']);
