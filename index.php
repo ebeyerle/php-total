@@ -62,7 +62,7 @@ $fields=isset($_SESSION['fields'])?$_SESSION['fields']:[];
 			$balance_data = $response_data->data;
 
 			// Cut long data into small & select only first 10 records
-			echo "Total - "
+			echo "Total - ".$balance_data;
 
 			// Print data if need to debug
 			//print_r($user_data);
