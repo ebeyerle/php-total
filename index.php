@@ -51,9 +51,7 @@ $fields=isset($_SESSION['fields'])?$_SESSION['fields']:[];
 					 console.log(balance_total);
 
 					const ratio = (balance_total / grand_total) * 100;
-					document.querySelector(".total").innerText = numberFormat(
-							balance_total
-					);
+					document.querySelector(".total").innerText = balance_total;
 
 
 					if (isEmbedded) {
